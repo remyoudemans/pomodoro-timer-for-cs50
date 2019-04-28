@@ -1,7 +1,7 @@
 import React from 'react';
 import { Keyboard, View, KeyboardAvoidingView, ScrollView, Button, StyleSheet } from 'react-native'
 
-import vibrate from './utils/vibrate'
+import { vibrate, mod } from './utils'
 import { TIMER_TYPES } from './utils/constants'
 import { TimeDisplay, TimerTitle, TimerEmoji, FlexWrap, TimerInputLine, H1 } from './components'
 
@@ -12,7 +12,7 @@ export default class App extends React.Component {
     keyboardIsOpen: false,
     timerType: TIMER_TYPES.work,
     currentTimer: {
-      minutes: 58,
+      minutes: 25,
       seconds: 0
     },
     [TIMER_TYPES.break]: {
@@ -46,18 +46,15 @@ export default class App extends React.Component {
     }
 
     else {
+
       const newMinutes = seconds === 0
         ? minutes - 1
         : minutes
       
-      const newSeconds = seconds === 0
-        ? 59
-        : seconds - 1
-
       this.setState({
         currentTimer: {
           minutes: newMinutes,
-          seconds: newSeconds
+          seconds: mod(seconds - 1, 60)
         }
       })
     }
@@ -156,7 +153,7 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffeeed',
     alignItems: 'center',
     justifyContent: 'center',
   },
